@@ -1,6 +1,6 @@
 # AyoubOS - VSCode Inspired Developer Portfolio
 
-[!Alert text](public/frame_safari_dark.png)
+![Alert text](public/frame_safari_dark.png)
 
 An immersive VSCode-style portfolio experience featuring an AI Copilot, terminal emulator, command palette, extensions, themes, editor tabs, and interactive developer tooling.
 
