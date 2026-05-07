@@ -104,7 +104,7 @@ const ExtensionsPanel = ({
   if (!isOpen) return null;
 
   return (
-    <div className="w-[300px] bg-vsc-sidebar border-r border-border flex flex-col shrink-0 overflow-hidden">
+    <div className="fixed left-10 top-8 bottom-5 z-40 w-[min(320px,calc(100vw-40px))] bg-vsc-sidebar border-r border-border flex flex-col shrink-0 overflow-hidden shadow-2xl md:static md:inset-auto md:z-auto md:w-[300px] md:shadow-none">
       <div className="px-4 py-2 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
         EXTENSIONS
       </div>
@@ -124,14 +124,14 @@ const ExtensionsPanel = ({
             <div
               key={ext.key}
               onClick={() => handleOpenExtension(ext.key)}
-              className="mx-2 mb-1 border rounded-sm px-2 py-2 cursor-pointer transition-colors bg-transparent border-border hover:bg-secondary/20 hover:border-primary/60"
+              className="mx-2 mb-1 max-w-full border rounded-sm px-2 py-2 cursor-pointer transition-colors bg-transparent border-border hover:bg-secondary/20 hover:border-primary/60"
             >
               <div className="flex items-start gap-2">
                 <Icon size={15} className="mt-0.5 text-muted-foreground" />
                 <div className="flex-1 min-w-0">
                   <div className="text-[12px] text-foreground truncate">{ext.name}</div>
                   <div className="text-[11px] text-muted-foreground leading-snug">{ext.desc}</div>
-                  <div className="mt-1 flex items-center gap-2">
+                  <div className="mt-1 flex flex-wrap items-center gap-2">
                     <span className="text-[10px] text-vsc-green inline-flex items-center gap-1">
                       <Check size={10} /> Installed
                     </span>
@@ -170,4 +170,3 @@ const ExtensionsPanel = ({
 };
 
 export default ExtensionsPanel;
-

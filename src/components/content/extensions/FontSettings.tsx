@@ -49,13 +49,13 @@ const FontSettings = () => {
   return (
     <div className="flex-1 overflow-y-auto bg-vsc-editor">
       {/* Header */}
-      <div className="px-8 py-6 border-b border-border">
-        <div className="flex items-start gap-4">
+      <div className="px-4 py-5 sm:px-8 sm:py-6 border-b border-border">
+        <div className="flex min-w-0 items-start gap-3 sm:gap-4">
           <div className="flex items-center justify-center w-12 h-12 rounded bg-primary/20">
             <Type size={24} className="text-primary" strokeWidth={1.5} />
           </div>
-          <div>
-            <h1 className="text-2xl font-semibold text-foreground">Font Settings</h1>
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-2xl font-semibold text-foreground break-words">Font Settings</h1>
             <p className="text-sm text-muted-foreground mt-1">Customize typography and spacing.</p>
             <span className="inline-flex items-center gap-1 mt-2 px-2 py-1 bg-vsc-green/20 text-vsc-green rounded text-xs font-medium">
               <Check size={12} /> Installed
@@ -65,7 +65,7 @@ const FontSettings = () => {
       </div>
 
       {/* Content */}
-      <div className="px-8 py-6 space-y-8">
+      <div className="px-4 py-5 sm:px-8 sm:py-6 space-y-8">
         {/* Font Family */}
         <div>
           <label className="block text-sm font-semibold text-foreground mb-3">Font Family</label>

@@ -17,7 +17,7 @@ import { Gamepad2 } from 'lucide-react';
 const AppShell = () => {
   const [activeTab, setActiveTab] = useState<TabId>('home');
   const [openTabs, setOpenTabs] = useState<TabId[]>(['home']);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768);
   const [chatOpen, setChatOpen] = useState(false);
   const [dinoOpen, setDinoOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -197,7 +197,7 @@ const AppShell = () => {
   }, [activeTab, closeAllOverlays, handleCloseTab, openNewTab, toggleCopilotPanel]);
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
+    <div className="h-screen w-screen max-w-full flex flex-col overflow-x-hidden overflow-y-hidden">
       <TitleBar
         onOpenCommandPalette={() => setCommandPaletteOpen(true)}
         onToggleTerminal={() => setTerminalOpen(p => !p)}
@@ -214,7 +214,7 @@ const AppShell = () => {
         onOpenFile={(id) => handleFileSelect(id as FileId)}
       />
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 min-w-0 overflow-hidden">
         <ActivityBar
           onToggleSidebar={() => setSidebarOpen((p) => !p)}
           onToggleExtensions={toggleExtensionsPanel}
@@ -227,11 +227,23 @@ const AppShell = () => {
           extensionsOpen={extensionsOpen}
         />
 
+        {!focusMode && !extensionsOpen && sidebarOpen && (
+          <button
+            type="button"
+            aria-label="Close sidebar"
+            onClick={() => setSidebarOpen(false)}
+            className="fixed inset-0 top-8 z-30 bg-black/45 md:hidden"
+          />
+        )}
+
         {!focusMode && !extensionsOpen && (
           <SidebarExplorer
             isOpen={sidebarOpen}
             activeFile={activeTab as FileId}
-            onFileSelect={handleFileSelect}
+            onFileSelect={(id) => {
+              handleFileSelect(id);
+              if (window.innerWidth < 768) setSidebarOpen(false);
+            }}
             onOpenCopilot={toggleCopilotPanel}
             copilotOpen={chatOpen}
           />
@@ -252,7 +264,7 @@ const AppShell = () => {
           />
         )}
 
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 min-w-0 flex flex-col overflow-hidden">
           <EditorTabs
             activeTab={activeTab}
             openTabs={openTabs}

@@ -152,7 +152,7 @@ const TitleBar = ({
   );
 
   const dropdownBase: React.CSSProperties = {
-    minWidth: 200,
+    width: 'min(240px, calc(100vw - 16px))',
     background: 'var(--bg3)',
     border: '1px solid var(--border-menu)',
     boxShadow: '0 8px 32px rgba(0,0,0,0.65)',
@@ -161,8 +161,9 @@ const TitleBar = ({
 
   const getMenuPosition = (buttonRef: React.RefObject<HTMLButtonElement>, fallbackLeft: number) => {
     const rect = buttonRef.current?.getBoundingClientRect();
-    if (!rect) return { top: 53, left: fallbackLeft };
-    return { top: Math.round(rect.bottom + 2), left: Math.round(rect.left) };
+    const width = Math.min(240, window.innerWidth - 16);
+    if (!rect) return { top: 53, left: Math.min(fallbackLeft, window.innerWidth - width - 8) };
+    return { top: Math.round(rect.bottom + 2), left: Math.max(8, Math.min(Math.round(rect.left), window.innerWidth - width - 8)) };
   };
 
   const setUiZoom = (nextZoom: number) => {
@@ -186,9 +187,9 @@ const TitleBar = ({
 
   // ── Render ─────────────────────────────────────────────────
   return (
-    <div className="flex items-center h-8 bg-vsc-titlebar text-muted-foreground text-xs select-none shrink-0 relative">
+    <div className="flex items-center h-8 bg-vsc-titlebar text-muted-foreground text-xs select-none shrink-0 relative min-w-0">
       {/* VSCode Icon */}
-      <div className="flex items-center px-3">
+      <div className="flex items-center px-2 sm:px-3 shrink-0">
         <img src="/vscode.svg" alt="VSCode" className="w-4 h-4 opacity-80" />
       </div>
 
@@ -405,16 +406,16 @@ const TitleBar = ({
       </div>
 
       {/* Center search */}
-      <div className="flex-1 flex justify-center">
+      <div className="flex-1 min-w-0 flex justify-center px-1">
         <button
           onClick={onOpenCommandPalette}
-          className="flex items-center justify-center gap-1.5 px-3 py-1 rounded hover:bg-secondary/20 transition-colors cursor-pointer"
+          className="flex min-w-0 max-w-full items-center justify-center gap-1.5 px-2 sm:px-3 py-1 rounded hover:bg-secondary/20 transition-colors cursor-pointer"
         >
           <Search size={12} strokeWidth={1.5} className="text-muted-foreground/70" />
-          <span className="text-muted-foreground/70">
+          <span className="text-muted-foreground/70 truncate">
             ayoub-bahrouni : portfolio
-            <span className="ml-2 px-1.5 py-0.5 bg-secondary rounded text-[10px]">Ctrl</span>
-            <span className="ml-1 px-1.5 py-0.5 bg-secondary rounded text-[10px]">P</span>
+            <span className="hidden sm:inline ml-2 px-1.5 py-0.5 bg-secondary rounded text-[10px]">Ctrl</span>
+            <span className="hidden sm:inline ml-1 px-1.5 py-0.5 bg-secondary rounded text-[10px]">P</span>
           </span>
         </button>
       </div>

@@ -14,9 +14,9 @@ const socialIconMap: Record<string, LucideIcon> = {
 };
 
 const HomePreview = ({ onFileSelect }: { onFileSelect: (id: FileId) => void }) => (
-  <div className="p-8 max-w-4xl">
+  <div className="w-full max-w-4xl px-4 py-6 sm:px-6 md:p-8 overflow-x-hidden">
     <p className="font-code text-vsc-comment text-sm mb-6">{'// hello world !! Welcome to my portfolio'}</p>
-    <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-2">
+    <h1 className="text-[40px] sm:text-5xl md:text-7xl font-bold leading-tight mb-2">
       <span className="text-foreground">Ayoub</span>
       <br />
       <span className="text-primary font-extrabold">Bahrouni.</span>
@@ -62,9 +62,9 @@ const HomePreview = ({ onFileSelect }: { onFileSelect: (id: FileId) => void }) =
       {socialLinks.map((link) => {
         const Icon = socialIconMap[link.lucideIcon];
         return (
-          <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-1.5 border border-border rounded text-xs text-muted-foreground hover:text-foreground hover:border-muted-foreground transition-colors">
+          <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" className="min-w-0 flex items-center gap-2 px-3 py-1.5 border border-border rounded text-xs text-muted-foreground hover:text-foreground hover:border-muted-foreground transition-colors">
             {Icon && <Icon size={13} strokeWidth={1.5} />}
-            {link.name}
+            <span className="truncate">{link.name}</span>
           </a>
         );
       })}

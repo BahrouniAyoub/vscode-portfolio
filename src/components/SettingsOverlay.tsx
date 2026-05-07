@@ -71,10 +71,11 @@ const SettingsOverlay = ({ isOpen, onClose }: SettingsOverlayProps) => {
       onClick={onClose}
     >
       <div
-        className="fixed z-[10000] w-72 overflow-y-auto rounded bg-vsc-sidebar border border-border shadow-[0_8px_32px_rgba(0,0,0,0.65)]"
+        className="fixed z-[10000] w-[calc(100vw-24px)] max-w-72 overflow-y-auto rounded bg-vsc-sidebar border border-border shadow-[0_8px_32px_rgba(0,0,0,0.65)]"
         style={{
           top: 30,
-          left: 50,
+          left: 'min(50px, 12px)',
+          right: 12,
           maxHeight: 'calc(100vh - 40px)',
           opacity: visible ? 1 : 0,
           transform: visible ? 'translateY(0)' : 'translateY(-8px)',
@@ -110,7 +111,7 @@ const SettingsOverlay = ({ isOpen, onClose }: SettingsOverlayProps) => {
                   border: `1px solid rgba(${t.color},0.6)`,
                 }}
               />
-              <span>{t.emoji} {t.name}</span>
+              <span className="min-w-0 truncate">{t.emoji} {t.name}</span>
               {activeTheme === t.id && (
                 <Check size={12} className="ml-auto text-foreground" strokeWidth={2} />
               )}
@@ -156,9 +157,9 @@ const SettingsOverlay = ({ isOpen, onClose }: SettingsOverlayProps) => {
               className="w-full flex items-center px-3 py-2 text-[12px] text-muted-foreground hover:text-foreground hover:bg-white/[0.04] transition-colors cursor-pointer text-left"
             >
               <span className="mr-3">{a.emoji}</span>
-              <span>{a.label}</span>
+              <span className="min-w-0 truncate">{a.label}</span>
               {a.shortcut && (
-                <span className="ml-auto text-[10px] text-muted-foreground/60">{a.shortcut}</span>
+                <span className="ml-auto shrink-0 text-[10px] text-muted-foreground/60">{a.shortcut}</span>
               )}
             </button>
           ))}

@@ -103,11 +103,11 @@ const CommandPalette = ({ isOpen, onClose, onFileSelect, onOpenCopilot }: Comman
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex justify-center bg-black/55 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex justify-center bg-black/55 px-3 backdrop-blur-sm animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div 
-        className="w-[540px] mt-[80px] h-fit max-h-[80vh] flex flex-col bg-vsc-bg rounded-md shadow-2xl border border-white/15 overflow-hidden"
+        className="mt-10 sm:mt-[80px] w-[calc(100vw-24px)] max-w-[540px] h-fit max-h-[85vh] sm:max-h-[80vh] flex flex-col bg-vsc-bg rounded-md shadow-2xl border border-white/15 overflow-hidden"
         onClick={e => e.stopPropagation()}
       >
         {/* Search Bar */}
@@ -119,9 +119,9 @@ const CommandPalette = ({ isOpen, onClose, onFileSelect, onOpenCopilot }: Comman
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Go to file or run command..."
-            className="flex-1 bg-transparent border-none outline-none font-mono text-[14px] text-vscode-bright placeholder:text-vscode-dim"
+            className="min-w-0 flex-1 bg-transparent border-none outline-none font-mono text-[13px] sm:text-[14px] text-vscode-bright placeholder:text-vscode-dim"
           />
-          <div className="px-2 py-0.5 ml-2 text-[10px] uppercase font-bold tracking-wider text-vscode-dim bg-white/5 rounded border border-white/10">
+          <div className="hidden sm:block px-2 py-0.5 ml-2 text-[10px] uppercase font-bold tracking-wider text-vscode-dim bg-white/5 rounded border border-white/10">
             Esc
           </div>
         </div>
@@ -153,9 +153,9 @@ const CommandPalette = ({ isOpen, onClose, onFileSelect, onOpenCopilot }: Comman
                         }`}
                       >
                         <Icon size={14} className="mr-2 opacity-80" />
-                        <span className="flex-1">{cmd.title}</span>
+                        <span className="min-w-0 flex-1 truncate">{cmd.title}</span>
                         {cmd.shortcut && (
-                          <span className="text-[10px] text-vscode-dim ml-4 opacity-60">
+                          <span className="hidden sm:inline text-[10px] text-vscode-dim ml-4 opacity-60 shrink-0">
                             {cmd.shortcut}
                           </span>
                         )}
@@ -184,9 +184,9 @@ const CommandPalette = ({ isOpen, onClose, onFileSelect, onOpenCopilot }: Comman
                         }`}
                       >
                         <Icon size={14} className="mr-2 text-vscode-blue opacity-80" />
-                        <span className="flex-1">{file.title}</span>
+                        <span className="min-w-0 flex-1 truncate">{file.title}</span>
                         {file.path && (
-                          <span className="text-[10px] text-vscode-dim ml-4 opacity-60">
+                          <span className="hidden sm:inline text-[10px] text-vscode-dim ml-4 opacity-60 shrink-0">
                             {file.path}
                           </span>
                         )}
@@ -200,13 +200,13 @@ const CommandPalette = ({ isOpen, onClose, onFileSelect, onOpenCopilot }: Comman
         </div>
 
         {/* Footer Bar */}
-        <div className="flex items-center justify-between px-3.5 py-1.5 border-t border-white/10 shrink-0 bg-vsc-sidebar">
-          <div className="text-[11px] text-vscode-dim flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-1.5 border-t border-white/10 shrink-0 bg-vsc-sidebar">
+          <div className="text-[11px] text-vscode-dim flex flex-wrap items-center gap-3">
             <span><strong className="font-semibold text-vscode-bright">↑↓</strong> navigate</span>
             <span><strong className="font-semibold text-vscode-bright">↵</strong> open</span>
             <span><strong className="font-semibold text-vscode-bright">Esc</strong> close</span>
           </div>
-          <div className="text-[10px] text-vscode-dim italic opacity-70">
+          <div className="hidden sm:block text-[10px] text-vscode-dim italic opacity-70">
             Tip: type "copilot" to open AI chat
           </div>
         </div>

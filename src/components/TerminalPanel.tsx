@@ -500,9 +500,8 @@ Date:   Sat May 3 14:15:00 2026
 
   return (
     <div
-      className="w-full shrink-0 flex flex-col overflow-hidden border-t border-border bg-vsc-editor"
+      className="w-full max-w-full h-[40vh] md:h-[220px] shrink-0 flex flex-col overflow-hidden border-t border-border bg-vsc-editor"
       style={{
-        height: 220,
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0)' : 'translateY(20px)',
         transition: 'opacity 250ms ease, transform 250ms ease',
@@ -539,7 +538,7 @@ Date:   Sat May 3 14:15:00 2026
 
       {activeTab === 'terminal' && (
         <div
-          className="flex-1 overflow-y-auto px-3.5 pt-2 pb-1 font-mono text-xs leading-[1.8]"
+          className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden px-2 sm:px-3.5 pt-2 pb-1 font-mono text-[11px] sm:text-xs leading-[1.8] break-words"
           style={{ background: 'hsl(var(--vsc-editor-bg))' }}
         >
           {lines.map((line, i) => (
@@ -554,7 +553,7 @@ Date:   Sat May 3 14:15:00 2026
                     <span className="text-foreground">{line.command}</span>
                   </div>
                   {line.content && (
-                    <div className={`whitespace-pre-wrap pl-0 ${getLineClassName(line.variant)}`}>
+                    <div className={`whitespace-pre-wrap break-words pl-0 ${getLineClassName(line.variant)}`}>
                       {line.content}
                     </div>
                   )}

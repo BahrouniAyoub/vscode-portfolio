@@ -298,7 +298,7 @@ const Chatbot = ({ isOpen, activeTab, onClose, onFileSelect, onDownloadResume }:
 
   return (
     <div
-      className="fixed top-0 right-0 h-screen w-[360px] flex flex-col overflow-hidden bg-vsc-sidebar transition-all duration-300 ease-out z-[80]"
+      className="fixed top-0 right-0 h-screen w-[calc(100vw-16px)] max-w-full sm:w-[360px] flex flex-col overflow-hidden bg-vsc-sidebar transition-all duration-300 ease-out z-[80]"
       style={{
         transform: visible ? 'translateX(0)' : 'translateX(100%)',
         pointerEvents: isOpen ? 'auto' : 'none',
@@ -306,13 +306,13 @@ const Chatbot = ({ isOpen, activeTab, onClose, onFileSelect, onDownloadResume }:
         opacity: visible ? 1 : 0,
       }}
     >
-      <div className="flex flex-col w-[360px] h-full shrink-0">
+      <div className="flex flex-col w-full h-full min-w-0 shrink-0">
         <div className="flex items-center justify-between px-3 py-2.5 border-b border-border">
-          <div className="flex items-center gap-2">
+          <div className="flex min-w-0 items-center gap-2">
             <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))' }}>
               <Bot size={13} strokeWidth={2} className="text-primary-foreground" />
             </div>
-            <span className="text-[13px] font-semibold text-foreground tracking-tight">Ayoub's AI Assistant</span>
+            <span className="truncate text-[13px] font-semibold text-foreground tracking-tight">Ayoub's AI Assistant</span>
           </div>
           <div className="flex items-center gap-1">
             <button onClick={handleNewChat} className="w-7 h-7 flex items-center justify-center rounded hover:bg-secondary/60 transition-colors text-muted-foreground hover:text-foreground" title="New Chat">
@@ -328,7 +328,7 @@ const Chatbot = ({ isOpen, activeTab, onClose, onFileSelect, onDownloadResume }:
           <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Workspace</span>
           <div className="flex items-center gap-1.5">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] text-muted-foreground">portfolio · {activeTab}</span>
+            <span className="truncate text-[10px] text-muted-foreground">portfolio · {activeTab}</span>
           </div>
         </div>
 
@@ -352,7 +352,7 @@ const Chatbot = ({ isOpen, activeTab, onClose, onFileSelect, onDownloadResume }:
                       <Bot size={11} strokeWidth={2} className="text-primary-foreground" />
                     </div>
                   )}
-                  <div className="max-w-[80%]">
+                  <div className="max-w-[85%] min-w-0 break-words">
                     <div
                       className={`px-3 py-2 text-[12px] leading-relaxed ${msg.role === 'user' ? 'rounded-[12px_12px_4px_12px] bg-primary text-primary-foreground' : 'rounded-[12px_12px_12px_4px] bg-secondary/70 text-foreground border border-border/60'}`}
                     >
@@ -402,7 +402,7 @@ const Chatbot = ({ isOpen, activeTab, onClose, onFileSelect, onDownloadResume }:
               }}
               placeholder="Ask about projects, skills, resume..."
               rows={1}
-              className="flex-1 bg-transparent text-foreground text-[12px] leading-relaxed resize-none focus:outline-none placeholder:text-muted-foreground/60"
+              className="min-w-0 flex-1 bg-transparent text-foreground text-[12px] leading-relaxed resize-none focus:outline-none placeholder:text-muted-foreground/60"
               style={{ maxHeight: 120 }}
             />
             <button
@@ -418,9 +418,9 @@ const Chatbot = ({ isOpen, activeTab, onClose, onFileSelect, onDownloadResume }:
               <Send size={13} strokeWidth={1.5} />
             </button>
           </div>
-          <div className="flex items-center justify-between mt-1.5 px-1">
+          <div className="flex items-center justify-between gap-2 mt-1.5 px-1">
             <span className="text-[10px] text-muted-foreground/60">{msgCount} msgs left</span>
-            {lastTopic && <span className="text-[10px] text-muted-foreground/60">context: {lastTopic}</span>}
+            {lastTopic && <span className="truncate text-[10px] text-muted-foreground/60">context: {lastTopic}</span>}
           </div>
           <p className="text-[9px] text-muted-foreground/50 text-center mt-1">
             Answers are limited to the portfolio knowledge base.

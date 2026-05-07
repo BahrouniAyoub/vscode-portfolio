@@ -33,7 +33,7 @@ const ActivityBar = ({
   ];
 
   return (
-    <div className="hidden md:flex flex-col items-center w-12 bg-vsc-activitybar py-2 gap-1 shrink-0">
+    <div className="flex flex-col items-center w-10 md:w-12 bg-vsc-activitybar py-1.5 md:py-2 gap-1 shrink-0 z-40">
       {icons.map((item, i) => {
         const isExtensions = item.label === 'Extensions';
         const active = isExtensions && extensionsOpen;
@@ -42,7 +42,7 @@ const ActivityBar = ({
             key={i}
             onClick={item.action}
             title={item.label}
-            className={`w-10 h-10 flex items-center justify-center transition-colors rounded-sm hover:bg-secondary/30 ${active ? 'text-foreground border-l-2 border-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+            className={`w-9 h-9 md:w-10 md:h-10 flex items-center justify-center transition-colors rounded-sm hover:bg-secondary/30 ${active ? 'text-foreground border-l-2 border-foreground' : 'text-muted-foreground hover:text-foreground'}`}
           >
             <item.icon size={20} strokeWidth={1.5} />
           </button>
@@ -52,7 +52,7 @@ const ActivityBar = ({
       <button
         onClick={() => onFileSelect('about')}
         title="Ayoub profile"
-        className={`w-10 h-10 flex items-center justify-center transition-colors rounded-sm hover:bg-white/[0.06] ${activeFile === 'about' ? 'border-l-2 border-foreground bg-white/[0.04]' : ''}`}
+        className={`w-9 h-9 md:w-10 md:h-10 flex items-center justify-center transition-colors rounded-sm hover:bg-white/[0.06] ${activeFile === 'about' ? 'border-l-2 border-foreground bg-white/[0.04]' : ''}`}
       >
         <div className="w-8 h-8 rounded-full flex items-center justify-center ring-1 ring-white/15 hover:ring-white/30 transition-all">
           <img
@@ -65,14 +65,14 @@ const ActivityBar = ({
       <button
         onClick={onToggleCopilot}
         title="Ayoub's Copilot"
-        className={`w-10 h-10 flex items-center justify-center transition-colors rounded-sm hover:bg-secondary/30 ${chatOpen ? 'text-foreground border-l-2 border-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+        className={`w-9 h-9 md:w-10 md:h-10 flex items-center justify-center transition-colors rounded-sm hover:bg-secondary/30 ${chatOpen ? 'text-foreground border-l-2 border-foreground' : 'text-muted-foreground hover:text-foreground'}`}
       >
         <Sparkles size={20} strokeWidth={1.5} />
       </button>
       <button
         onClick={onToggleSettings}
         title="Settings"
-        className="w-10 h-10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors rounded-sm hover:bg-secondary/30"
+        className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors rounded-sm hover:bg-secondary/30"
       >
         <Settings size={20} strokeWidth={1.5} />
       </button>

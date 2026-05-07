@@ -26,13 +26,13 @@ const AnimationSettings = () => {
   return (
     <div className="flex-1 overflow-y-auto bg-vsc-editor">
       {/* Header */}
-      <div className="px-8 py-6 border-b border-border">
-        <div className="flex items-start gap-4">
+      <div className="px-4 py-5 sm:px-8 sm:py-6 border-b border-border">
+        <div className="flex min-w-0 items-start gap-3 sm:gap-4">
           <div className="flex items-center justify-center w-12 h-12 rounded bg-primary/20">
             <Sparkles size={24} className="text-primary" strokeWidth={1.5} />
           </div>
-          <div>
-            <h1 className="text-2xl font-semibold text-foreground">Animation Control</h1>
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-2xl font-semibold text-foreground break-words">Animation Control</h1>
             <p className="text-sm text-muted-foreground mt-1">Toggle UI animations and motion preferences.</p>
             <span className="inline-flex items-center gap-1 mt-2 px-2 py-1 bg-vsc-green/20 text-vsc-green rounded text-xs font-medium">
               <Check size={12} /> Installed
@@ -42,7 +42,7 @@ const AnimationSettings = () => {
       </div>
 
       {/* Content */}
-      <div className="px-8 py-6 space-y-6">
+      <div className="px-4 py-5 sm:px-8 sm:py-6 space-y-6">
         {/* Animations Toggle */}
         <div className="border border-border rounded p-4 bg-secondary/10">
           <div className="flex items-center justify-between">

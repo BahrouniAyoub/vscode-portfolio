@@ -28,7 +28,7 @@ const EditorTabs = ({ activeTab, openTabs, onTabSelect, onCloseTab }: EditorTabs
   };
 
   return (
-    <div className="flex items-center bg-vsc-tab-inactive border-b border-border overflow-x-auto shrink-0">
+    <div className="flex max-w-full items-center bg-vsc-tab-inactive border-b border-border overflow-x-auto overflow-y-hidden shrink-0">
       {openTabs.map((tabId) => {
         const isActive = activeTab === tabId;
         const label = getTabLabel(tabId);
@@ -41,7 +41,7 @@ const EditorTabs = ({ activeTab, openTabs, onTabSelect, onCloseTab }: EditorTabs
           <div
             key={tabId}
             onClick={() => onTabSelect(tabId)}
-            className={`flex items-center gap-2 px-3 py-1.5 text-[13px] cursor-pointer border-r border-border shrink-0 transition-colors group ${
+            className={`flex min-w-0 max-w-[180px] sm:max-w-none items-center gap-2 px-2 sm:px-3 py-1.5 text-[13px] cursor-pointer border-r border-border shrink-0 transition-colors group ${
               isActive
                 ? 'bg-vsc-tab-active text-foreground border-t-2 border-t-primary'
                 : 'bg-vsc-tab-inactive text-muted-foreground hover:bg-secondary/30 border-t-2 border-t-transparent'
@@ -49,7 +49,7 @@ const EditorTabs = ({ activeTab, openTabs, onTabSelect, onCloseTab }: EditorTabs
           >
             {file && <FileIcon name={file.lucideIcon} className={`${iconColor}`} />}
             {!file && <span className="text-xs font-code">⚙️</span>}
-            <span className="font-code text-xs">{label.name}</span>
+            <span className="font-code text-xs truncate">{label.name}</span>
             <button
               onClick={(e) => {
                 e.stopPropagation();

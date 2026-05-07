@@ -17,7 +17,7 @@ const SidebarExplorer = ({ isOpen, activeFile, onFileSelect, onOpenCopilot, copi
   const rootFiles = sidebarFiles.filter((file) => file.path[0] !== 'src');
 
   return (
-    <div className="w-52 bg-vsc-sidebar border-r border-border flex flex-col shrink-0 overflow-hidden">
+    <div className="fixed left-10 top-8 bottom-5 z-40 w-[min(280px,calc(100vw-40px))] bg-vsc-sidebar border-r border-border flex flex-col shrink-0 overflow-hidden shadow-2xl md:static md:inset-auto md:z-auto md:w-52 md:shadow-none">
       <div className="px-4 py-2 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
         Portfolio
       </div>

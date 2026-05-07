@@ -103,13 +103,13 @@ const EditorContent = ({
   };
 
   return (
-    <div className="flex-1 overflow-y-auto bg-vsc-editor">
+    <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden bg-vsc-editor">
       {!isExtension && (
-        <div className="px-3 py-1 text-xs text-muted-foreground font-code border-b border-border flex items-center justify-between gap-3">
+        <div className="px-2 sm:px-3 py-1 text-xs text-muted-foreground font-code border-b border-border flex flex-wrap items-center justify-between gap-2 sm:gap-3">
           <div className="flex items-center gap-1 min-w-0">
             {showCode ? breadcrumbParts.map((part, index) => (
               <span key={`${part}-${index}`} className="inline-flex items-center gap-1 shrink-0">
-                <span className={index === breadcrumbParts.length - 1 ? 'text-foreground' : undefined}>{part}</span>
+                <span className={`${index === breadcrumbParts.length - 1 ? 'text-foreground' : ''} truncate`}>{part}</span>
                 {index < breadcrumbParts.length - 1 && <ChevronRight size={10} strokeWidth={1.5} />}
               </span>
             )) : <span className="truncate">Preview · {file?.name}</span>}

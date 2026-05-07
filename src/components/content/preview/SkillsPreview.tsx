@@ -145,11 +145,11 @@ const CategoryBlock = ({ cat, delay, aiMode = false }: { cat: Category; delay: n
       </h3>
       <div className="space-y-2">
         {cat.skills.map((skill) => (
-          <div key={skill.name} className="flex items-center gap-3">
-            <span className="text-xs text-[hsl(220,13%,75%)] w-[112px] shrink-0 truncate">
+          <div key={skill.name} className="flex min-w-0 items-center gap-2 sm:gap-3">
+            <span className="min-w-0 text-xs text-[hsl(220,13%,75%)] w-[96px] sm:w-[112px] shrink-0 truncate">
               {skill.name}
             </span>
-            <div className="flex-1 h-[2px] rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+            <div className="min-w-0 flex-1 h-[2px] rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
               <div
                 className="h-full rounded-full"
                 style={{
@@ -171,19 +171,19 @@ const CategoryBlock = ({ cat, delay, aiMode = false }: { cat: Category; delay: n
 
 const SkillsPreview = ({ aiMode = false }: { aiMode?: boolean }) => {
   return (
-    <div className="p-8 flex justify-center">
-      <div className="w-full" style={{ maxWidth: 940 }}>
+    <div className="w-full px-4 py-6 sm:px-6 md:p-8 flex justify-center overflow-x-hidden">
+      <div className="w-full max-w-full" style={{ maxWidth: 940 }}>
         <p className="text-xs italic text-vsc-comment mb-2">
           {'// skills.json — tech stack & tools I actually use'}
         </p>
-        <h1 className="text-[35px] font-bold text-foreground leading-tight" style={{ letterSpacing: '-0.02em' }}>
+        <h1 className="text-[28px] md:text-[35px] font-bold text-foreground leading-tight" style={{ letterSpacing: '-0.02em' }}>
           Skills
         </h1>
         <p className="text-xs text-vsc-comment mt-1 mb-8">
           {'{ "status": "always_learning", "passion": "immeasurable" }'}
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-6">
           {categories.map((cat, i) => (
             <CategoryBlock key={cat.title} cat={cat} delay={i * 80} aiMode={aiMode} />
           ))}

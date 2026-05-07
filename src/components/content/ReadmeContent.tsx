@@ -11,8 +11,7 @@ const CodeTag = ({ children }: { children: string }) => (
 
 const SectionHeading = ({ children }: { children: React.ReactNode }) => (
   <h2
-    className="font-bold text-foreground border-b border-border pb-2 mb-3"
-    style={{ fontSize: 30 }}
+    className="font-bold text-[24px] md:text-[30px] text-foreground border-b border-border pb-2 mb-3"
   >
     {children}
   </h2>
@@ -49,19 +48,18 @@ const connectItems = [
 
 const ReadmeContent = () => {
   return (
-    <div className="overflow-y-auto h-full">
-      <div className="px-12 py-12 max-w-[760px]">
+    <div className="overflow-y-auto overflow-x-hidden h-full w-full">
+      <div className="w-full max-w-[760px] px-4 py-6 sm:px-6 md:px-12 md:py-12">
 
         {/* Header */}
         <h1
-          className="font-display font-extrabold text-foreground border-b border-border pb-[10px] mb-[12px]"
-          style={{ fontSize: 35 }}
+          className="font-display font-extrabold text-[28px] md:text-[35px] text-foreground border-b border-border pb-[10px] mb-[12px]"
         >
           Bahrouni Ayoub
         </h1>
 
         <p className="text-muted-foreground mb-[10px]" style={{ fontSize: 14 }}>
-          AI Engineer @ Esprit · India 🇮🇳
+          AI Engineer @ Esprit · Tunisia 🇹🇳
         </p>
 
         {/* Skill Badges */}
@@ -107,7 +105,7 @@ const ReadmeContent = () => {
           <SectionHeading>Stack</SectionHeading>
           <div className="space-y-1" style={{ fontSize: 14, lineHeight: 1.8 }}>
             {stack.map(({ label, items }) => (
-              <div key={label} className="text-muted-foreground">
+              <div key={label} className="text-muted-foreground break-words">
                 <span className="text-foreground font-bold">{label}: </span>
                 {items.map((item) => (
                   <CodeTag key={item}>{item}</CodeTag>
