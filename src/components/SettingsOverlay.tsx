@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Check, Volume2, VolumeX } from 'lucide-react';
 import { useClickSound } from '@/hooks/use-click-sound';
+import { applyTheme, getStoredThemeId, themes } from '@/data/themes';
 
 interface SettingsOverlayProps {
   isOpen: boolean;
@@ -11,15 +12,6 @@ interface SettingsOverlayProps {
   onDownloadResume: () => void;
   onToggleFullscreen: () => void;
 }
-
-const themes = [
-  { id: 'ayoub-dark', name: 'Ayoub Dark', emoji: '💜', color: '138,43,226' },
-  { id: 'rose-pine', name: 'Rosé Pine', emoji: '🌸', color: '235,111,146' },
-  { id: 'tokyo-night', name: 'Tokyo Night', emoji: '🌃', color: '122,162,247' },
-  { id: 'catppuccin', name: 'Catppuccin', emoji: '🐱', color: '203,166,247' },
-  { id: 'nord', name: 'Nord', emoji: '🧊', color: '136,192,208' },
-  { id: 'gruvbox', name: 'Gruvbox', emoji: '🔥', color: '251,73,52' },
-];
 
 const quickActions = [
   { emoji: '🔍', label: 'Command Palette', shortcut: 'Ctrl+P' },
@@ -46,16 +38,23 @@ const SettingsOverlay = ({
   onDownloadResume,
   onToggleFullscreen,
 }: SettingsOverlayProps) => {
-  const [activeTheme, setActiveTheme] = useState(() => {
-    return localStorage.getItem('theme') || 'ayoub-dark';
-  });
+  const [activeTheme, setActiveTheme] = useState(getStoredThemeId);
   const [visible, setVisible] = useState(false);
   const { enabled, toggleSound } = useClickSound();
 
   useEffect(() => {
-    document.documentElement.dataset.theme = activeTheme;
-    localStorage.setItem('theme', activeTheme);
-  }, [activeTheme]);
+    const handleThemeChange = (event: Event) => {
+      const themeId = (event as CustomEvent<{ themeId: string }>).detail?.themeId;
+      if (themeId) setActiveTheme(themeId);
+    };
+    const handleStorage = () => setActiveTheme(getStoredThemeId());
+    window.addEventListener('portfolio:theme-change', handleThemeChange);
+    window.addEventListener('storage', handleStorage);
+    return () => {
+      window.removeEventListener('portfolio:theme-change', handleThemeChange);
+      window.removeEventListener('storage', handleStorage);
+    };
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -115,11 +114,11 @@ const SettingsOverlay = ({
         <Section label="🎨 Color Theme">
           {themes.map((t) => (
             <button
-              key={t.name}
-              onClick={() => setActiveTheme(t.id)}
+              key={t.id}
+              onClick={() => setActiveTheme(applyTheme(t.id))}
               className="w-full flex items-center gap-3 px-3 py-2 text-left text-[12px] cursor-pointer transition-colors"
               style={{
-                background: activeTheme === t.id ? 'rgba(255,255,255,0.08)' : 'transparent',
+                background: activeTheme === t.id ? 'var(--accent-soft)' : 'transparent',
                 color: activeTheme === t.id ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground))',
                 borderLeft: `2px solid ${activeTheme === t.id ? 'hsl(var(--primary))' : 'transparent'}`,
               }}
@@ -127,9 +126,9 @@ const SettingsOverlay = ({
               <div
                 className="w-4 h-4 rounded-full shrink-0"
                 style={{
-                  background: `rgb(${t.color})`,
-                  boxShadow: `0 0 6px rgba(${t.color},0.5)`,
-                  border: `1px solid rgba(${t.color},0.6)`,
+                  background: t.accent,
+                  boxShadow: `0 0 6px ${t.accent}`,
+                  border: `1px solid ${t.accent}`,
                 }}
               />
               <span className="min-w-0 truncate">{t.emoji} {t.name}</span>
