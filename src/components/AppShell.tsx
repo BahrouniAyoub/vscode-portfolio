@@ -12,7 +12,7 @@ import SettingsOverlay from './SettingsOverlay';
 import CommandPalette from './CommandPalette';
 import TerminalPanel from './TerminalPanel';
 import ExtensionsPanel from './ExtensionsPanel';
-import { Gamepad2 } from 'lucide-react';
+import SourceControlPanel from './source-control/SourceControlPanel';
 
 const AppShell = () => {
   const [activeTab, setActiveTab] = useState<TabId>('home');
@@ -24,6 +24,10 @@ const AppShell = () => {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [extensionsOpen, setExtensionsOpen] = useState(false);
+  const [sourceControlOpen, setSourceControlOpen] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [isClosed, setIsClosed] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(Boolean(document.fullscreenElement));
   const [focusMode, setFocusMode] = useState(false);
   const [aiMode, setAiMode] = useState(false);
 
@@ -65,6 +69,7 @@ const AppShell = () => {
     setTerminalOpen(false);
     setChatOpen(false);
     setExtensionsOpen(false);
+    setSourceControlOpen(false);
     window.dispatchEvent(new CustomEvent('app:close-menus'));
   }, []);
 
@@ -83,9 +88,36 @@ const AppShell = () => {
 
   const handleDownloadResume = useCallback(() => {
     const link = document.createElement('a');
-    link.href = '/Ayoub resume.pdf';
+    link.href = '/resume.pdf';
     link.download = 'Ayoub_Bahrouni_Resume.pdf';
     link.click();
+  }, []);
+
+  const toggleFullscreen = useCallback(async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch {
+      // Fullscreen can be denied by the browser or embedding context.
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  const handleOpenCommandPalette = useCallback(() => {
+    setCommandPaletteOpen(true);
+    setTerminalOpen(false);
+    setChatOpen(false);
+    setExtensionsOpen(false);
+    setSourceControlOpen(false);
+    window.dispatchEvent(new CustomEvent('app:close-menus'));
   }, []);
 
   const toggleCopilotPanel = useCallback(() => {
@@ -97,6 +129,22 @@ const AppShell = () => {
         setSettingsOpen(false);
         setDinoOpen(false);
         setExtensionsOpen(false);
+        setSourceControlOpen(false);
+        window.dispatchEvent(new CustomEvent('app:close-menus'));
+      }
+      return next;
+    });
+  }, []);
+
+  const toggleTerminalPanel = useCallback(() => {
+    setTerminalOpen((prev) => {
+      const next = !prev;
+      if (next) {
+        setCommandPaletteOpen(false);
+        setChatOpen(false);
+        setExtensionsOpen(false);
+        setSettingsOpen(false);
+        setSourceControlOpen(false);
         window.dispatchEvent(new CustomEvent('app:close-menus'));
       }
       return next;
@@ -107,6 +155,22 @@ const AppShell = () => {
     setExtensionsOpen((prev) => {
       const next = !prev;
       if (next) {
+        setCommandPaletteOpen(false);
+        setSettingsOpen(false);
+        setDinoOpen(false);
+        setSourceControlOpen(false);
+        window.dispatchEvent(new CustomEvent('app:close-menus'));
+      }
+      return next;
+    });
+  }, []);
+
+  const toggleSourceControlPanel = useCallback(() => {
+    setSourceControlOpen((prev) => {
+      const next = !prev;
+      if (next) {
+        setSidebarOpen(false);
+        setExtensionsOpen(false);
         setCommandPaletteOpen(false);
         setSettingsOpen(false);
         setDinoOpen(false);
@@ -124,6 +188,7 @@ const AppShell = () => {
         setTerminalOpen(false);
         setChatOpen(false);
         setExtensionsOpen(false);
+        setSourceControlOpen(false);
         setCommandPaletteOpen(false);
       }
       return next;
@@ -152,7 +217,7 @@ const AppShell = () => {
 
       if (key === 'p') {
         e.preventDefault();
-        setCommandPaletteOpen(true);
+        handleOpenCommandPalette();
         return;
       }
 
@@ -182,30 +247,35 @@ const AppShell = () => {
 
       if (key === 'j') {
         e.preventDefault();
-        setTerminalOpen((prev) => !prev);
+        toggleTerminalPanel();
         return;
       }
 
       if (e.key === '`' || e.code === 'Backquote') {
         e.preventDefault();
-        setTerminalOpen((prev) => !prev);
+        toggleTerminalPanel();
       }
     };
 
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [activeTab, closeAllOverlays, handleCloseTab, openNewTab, toggleCopilotPanel]);
+  }, [activeTab, closeAllOverlays, handleCloseTab, handleOpenCommandPalette, openNewTab, toggleCopilotPanel, toggleTerminalPanel]);
 
   return (
     <div className="h-screen w-screen max-w-full flex flex-col overflow-x-hidden overflow-y-hidden">
+      <div className={`${isMinimized || isClosed ? 'hidden' : 'flex'} min-h-0 flex-1 flex-col overflow-hidden`}>
       <TitleBar
-        onOpenCommandPalette={() => setCommandPaletteOpen(true)}
-        onToggleTerminal={() => setTerminalOpen(p => !p)}
+        onOpenCommandPalette={handleOpenCommandPalette}
+        onToggleTerminal={toggleTerminalPanel}
         onStartTerminal={handleStartTerminal}
         onToggleSidebar={() => setSidebarOpen((p) => !p)}
         onOpenCopilot={toggleCopilotPanel}
         copilotOpen={chatOpen}
         terminalOpen={terminalOpen}
+        isFullscreen={isFullscreen}
+        onMinimize={() => setIsMinimized(true)}
+        onToggleFullscreen={toggleFullscreen}
+        onCloseWindow={() => setIsClosed(true)}
         onCloseCurrentTab={() => handleCloseTab(activeTab)}
         onCloseAllTabs={() => {
           setOpenTabs(['home']);
@@ -216,18 +286,24 @@ const AppShell = () => {
 
       <div className="flex flex-1 min-w-0 overflow-hidden">
         <ActivityBar
-          onToggleSidebar={() => setSidebarOpen((p) => !p)}
+          onToggleSidebar={() => {
+            setSourceControlOpen(false);
+            setExtensionsOpen(false);
+            setSidebarOpen((p) => !p);
+          }}
           onToggleExtensions={toggleExtensionsPanel}
+          onToggleSourceControl={toggleSourceControlPanel}
           onToggleSettings={() => setSettingsOpen((p) => !p)}
-          onOpenCommandPalette={() => setCommandPaletteOpen(true)}
+          onOpenCommandPalette={handleOpenCommandPalette}
           onToggleCopilot={toggleCopilotPanel}
           activeFile={activeTab as FileId}
           onFileSelect={handleFileSelect}
           chatOpen={chatOpen}
           extensionsOpen={extensionsOpen}
+          sourceControlOpen={sourceControlOpen}
         />
 
-        {!focusMode && !extensionsOpen && sidebarOpen && (
+        {!focusMode && !extensionsOpen && !sourceControlOpen && sidebarOpen && (
           <button
             type="button"
             aria-label="Close sidebar"
@@ -236,7 +312,7 @@ const AppShell = () => {
           />
         )}
 
-        {!focusMode && !extensionsOpen && (
+        {!focusMode && !extensionsOpen && !sourceControlOpen && (
           <SidebarExplorer
             isOpen={sidebarOpen}
             activeFile={activeTab as FileId}
@@ -253,7 +329,7 @@ const AppShell = () => {
           <ExtensionsPanel
             isOpen={extensionsOpen}
             onOpenSettings={() => setSettingsOpen(true)}
-            onOpenCommandPalette={() => setCommandPaletteOpen(true)}
+            onOpenCommandPalette={handleOpenCommandPalette}
             onOpenCopilot={toggleCopilotPanel}
             onClearCopilot={() => window.dispatchEvent(new CustomEvent('app:copilot-clear-chat'))}
             onToggleFocusMode={toggleFocusMode}
@@ -261,6 +337,16 @@ const AppShell = () => {
             onOpenExtension={openExtension}
             focusMode={focusMode}
             aiMode={aiMode}
+          />
+        )}
+
+        {!focusMode && (
+          <SourceControlPanel
+            isOpen={sourceControlOpen}
+            onFileSelect={(id) => {
+              handleFileSelect(id);
+              if (window.innerWidth < 768) setSourceControlOpen(false);
+            }}
           />
         )}
 
@@ -275,7 +361,7 @@ const AppShell = () => {
             activeTab={activeTab}
             onFileSelect={handleFileSelect}
             onOpenSettings={() => setSettingsOpen(true)}
-            onOpenCommandPalette={() => setCommandPaletteOpen(true)}
+            onOpenCommandPalette={handleOpenCommandPalette}
             onOpenCopilot={toggleCopilotPanel}
             onToggleFocusMode={toggleFocusMode}
             onToggleAiMode={() => setAiMode((p) => !p)}
@@ -301,25 +387,54 @@ const AppShell = () => {
       </div>
 
       <StatusBar />
-
-      {/* Floating buttons */}
-      <div className="fixed bottom-8 right-4 flex flex-col gap-2 z-40">
-        <button
-          onClick={() => setDinoOpen(true)}
-          className="w-10 h-10 rounded-full bg-vsc-statusbar text-primary-foreground flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-          title="Play Dino Game"
-        >
-          <Gamepad2 size={18} strokeWidth={1.5} />
-        </button>
       </div>
 
-      <DinoGame isOpen={dinoOpen} onClose={() => setDinoOpen(false)} />
-      <SettingsOverlay isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
+      {isMinimized && !isClosed && (
+        <button
+          type="button"
+          onClick={() => setIsMinimized(false)}
+          className="fixed bottom-4 left-1/2 z-[100] -translate-x-1/2 rounded border border-border bg-vsc-sidebar px-4 py-2 text-xs text-foreground shadow-2xl transition-colors hover:border-primary/60 hover:bg-secondary/50 focus:outline-none focus:ring-2 focus:ring-primary/60"
+        >
+          Ayoub Portfolio minimized — Restore
+        </button>
+      )}
+
+      {isClosed && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-vsc-editor px-4">
+          <div className="w-full max-w-sm rounded border border-border bg-vsc-sidebar p-6 text-center shadow-2xl">
+            <p className="mb-4 text-sm font-semibold text-foreground">Portfolio window closed</p>
+            <button
+              type="button"
+              onClick={() => {
+                setIsClosed(false);
+                setIsMinimized(false);
+              }}
+              className="rounded bg-primary px-4 py-2 text-xs font-medium text-primary-foreground transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/60"
+            >
+              Reopen Portfolio
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Floating buttons */}
+     
+
+      <DinoGame isOpen={!isMinimized && !isClosed && dinoOpen} onClose={() => setDinoOpen(false)} />
+      <SettingsOverlay
+        isOpen={!isMinimized && !isClosed && settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        onOpenCommandPalette={handleOpenCommandPalette}
+        onToggleTerminal={toggleTerminalPanel}
+        onToggleCopilot={toggleCopilotPanel}
+        onDownloadResume={handleDownloadResume}
+        onToggleFullscreen={toggleFullscreen}
+      />
       <CommandPalette
-        isOpen={commandPaletteOpen}
+        isOpen={!isMinimized && !isClosed && commandPaletteOpen}
         onClose={() => setCommandPaletteOpen(false)}
         onFileSelect={handleFileSelect}
-        onOpenCopilot={() => setChatOpen(true)}
+        onOpenCopilot={toggleCopilotPanel}
       />
     </div>
   );

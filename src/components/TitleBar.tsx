@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, X, Minus, Maximize2 } from 'lucide-react';
+import { Search, X, Minus, Maximize2, Minimize2 } from 'lucide-react';
 
 interface TitleBarProps {
   onOpenCommandPalette?: () => void;
@@ -9,6 +9,10 @@ interface TitleBarProps {
   onOpenCopilot?: () => void;
   copilotOpen?: boolean;
   terminalOpen?: boolean;
+  isFullscreen?: boolean;
+  onMinimize?: () => void;
+  onToggleFullscreen?: () => void;
+  onCloseWindow?: () => void;
   onCloseCurrentTab?: () => void;
   onCloseAllTabs?: () => void;
   onOpenFile?: (id: string) => void;
@@ -31,6 +35,10 @@ const TitleBar = ({
   onOpenCopilot,
   copilotOpen,
   terminalOpen,
+  isFullscreen,
+  onMinimize,
+  onToggleFullscreen,
+  onCloseWindow,
   onCloseCurrentTab,
   onCloseAllTabs,
   onOpenFile,
@@ -227,7 +235,7 @@ const TitleBar = ({
               label="Download Resume"
               onClick={() => {
                 const a = document.createElement('a');
-                a.href = '/Ayoub resume.pdf';
+                a.href = '/resume.pdf';
                 a.download = 'Ayoub_Bahrouni_Resume.pdf';
                 a.click();
               }}
@@ -321,12 +329,12 @@ const TitleBar = ({
             <MenuItem label="contact.ts" indent onClick={() => onOpenFile?.('contact')} />
             <MenuItem label="README.md" indent onClick={() => onOpenFile?.('readme')} />
             <MenuItem
-              label="Aahana_Bobade_Resume.pdf"
+              label="Ayoub_Bahrouni_Resume.pdf"
               indent
               onClick={() => {
                 const a = document.createElement('a');
-                a.href = '/Ayoub resume.pdf';
-                a.download = 'Aahana_Bobade_Resume.pdf';
+                a.href = '/resume.pdf';
+                a.download = 'Ayoub_Bahrouni_Resume.pdf';
                 a.click();
               }}
             />
@@ -422,9 +430,30 @@ const TitleBar = ({
 
       {/* Window controls */}
       <div className="hidden md:flex items-center gap-2 px-3">
-        <button className="cursor-pointer hover:text-foreground"><Minus size={14} strokeWidth={1.5} /></button>
-        <button className="cursor-pointer hover:text-foreground"><Maximize2 size={12} strokeWidth={1.5} /></button>
-        <button className="cursor-pointer hover:text-foreground"><X size={14} strokeWidth={1.5} /></button>
+        <button
+          onClick={onMinimize}
+          className="cursor-pointer rounded-sm p-1 hover:bg-secondary/50 hover:text-foreground focus:outline-none focus:ring-1 focus:ring-primary/60"
+          title="Minimize"
+          aria-label="Minimize portfolio window"
+        >
+          <Minus size={14} strokeWidth={1.5} />
+        </button>
+        <button
+          onClick={onToggleFullscreen}
+          className="cursor-pointer rounded-sm p-1 hover:bg-secondary/50 hover:text-foreground focus:outline-none focus:ring-1 focus:ring-primary/60"
+          title="Toggle Fullscreen"
+          aria-label="Toggle fullscreen"
+        >
+          {isFullscreen ? <Minimize2 size={12} strokeWidth={1.5} /> : <Maximize2 size={12} strokeWidth={1.5} />}
+        </button>
+        <button
+          onClick={onCloseWindow}
+          className="cursor-pointer rounded-sm p-1 hover:bg-vsc-red/20 hover:text-vsc-red focus:outline-none focus:ring-1 focus:ring-vsc-red/60"
+          title="Close"
+          aria-label="Close portfolio window"
+        >
+          <X size={14} strokeWidth={1.5} />
+        </button>
       </div>
     </div>
   );

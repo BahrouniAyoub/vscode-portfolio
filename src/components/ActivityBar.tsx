@@ -4,6 +4,7 @@ import { FolderOpen, Search, GitBranch, Puzzle, Radio, Settings, Sparkles } from
 interface ActivityBarProps {
   onToggleSidebar: () => void;
   onToggleExtensions?: () => void;
+  onToggleSourceControl?: () => void;
   onToggleSettings: () => void;
   onOpenCommandPalette?: () => void;
   onToggleCopilot?: () => void;
@@ -11,11 +12,13 @@ interface ActivityBarProps {
   onFileSelect: (id: FileId) => void;
   chatOpen?: boolean;
   extensionsOpen?: boolean;
+  sourceControlOpen?: boolean;
 }
 
 const ActivityBar = ({
   onToggleSidebar,
   onToggleExtensions,
+  onToggleSourceControl,
   onToggleSettings,
   onOpenCommandPalette,
   onToggleCopilot,
@@ -23,11 +26,12 @@ const ActivityBar = ({
   onFileSelect,
   chatOpen,
   extensionsOpen,
+  sourceControlOpen,
 }: ActivityBarProps) => {
   const icons = [
     { icon: FolderOpen, label: 'Explorer', action: onToggleSidebar },
     { icon: Search, label: 'Search', action: onOpenCommandPalette },
-    { icon: GitBranch, label: 'Source Control' },
+    { icon: GitBranch, label: 'Source Control', action: onToggleSourceControl },
     { icon: Puzzle, label: 'Extensions', action: onToggleExtensions },
     { icon: Radio, label: 'Remote' },
   ];
@@ -36,7 +40,8 @@ const ActivityBar = ({
     <div className="flex flex-col items-center w-10 md:w-12 bg-vsc-activitybar py-1.5 md:py-2 gap-1 shrink-0 z-40">
       {icons.map((item, i) => {
         const isExtensions = item.label === 'Extensions';
-        const active = isExtensions && extensionsOpen;
+        const isSourceControl = item.label === 'Source Control';
+        const active = (isExtensions && extensionsOpen) || (isSourceControl && sourceControlOpen);
         return (
           <button
             key={i}

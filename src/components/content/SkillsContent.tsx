@@ -26,8 +26,23 @@ const SkillsContent = ({ aiMode = false }: { aiMode?: boolean }) => {
     <>    <T.Str>"Hugging Face Transformers"</T.Str></>,
     <>  ],</>,
     '',
-    <>  <T.Property>machineLearning</T.Property>: [<T.Str>"PyTorch"</T.Str>, <T.Str>"TensorFlow"</T.Str>, <T.Str>"scikit-learn"</T.Str>, <T.Str>"Pandas"</T.Str>, <T.Str>"NumPy"</T.Str>],</>,
-    <>  <T.Property>backend</T.Property>: [<T.Str>"FastAPI"</T.Str>, <T.Str>"Flask"</T.Str>, <T.Str>"Django"</T.Str>, <T.Str>"Node.js"</T.Str>],</>,
+    <>
+      <T.Property>machineLearning</T.Property>:[
+      <T.Str>"PyTorch"</T.Str>,
+      <T.Str>"TensorFlow"</T.Str>,
+      <T.Str>"scikit-learn"</T.Str>,
+      <T.Str>"Pandas"</T.Str>,
+      <T.Str>"NumPy"</T.Str>],
+    </>,
+    <>
+      <T.Property>backend</T.Property>: [
+      <T.Str>"FastAPI"</T.Str>,
+      <T.Str>"Flask"</T.Str>,
+      <T.Str>"Django"</T.Str>,
+      <T.Str>"Node.js"</T.Str>,
+      <T.Str>"Express.js"</T.Str>,
+      ],
+    </>,
     <>  <T.Property>frontend</T.Property>: [<T.Str>"React"</T.Str>, <T.Str>"Next.js"</T.Str>, <T.Str>"Tailwind CSS"</T.Str>, <T.Str>"Responsive Design"</T.Str>],</>,
     <>  <T.Property>databases</T.Property>: [<T.Str>"PostgreSQL"</T.Str>, <T.Str>"MongoDB"</T.Str>, <T.Str>"Redis"</T.Str>, <T.Str>"Neo4j"</T.Str>],</>,
     <>  <T.Property>vectorStores</T.Property>: [<T.Str>"FAISS"</T.Str>, <T.Str>"Pinecone"</T.Str>],</>,

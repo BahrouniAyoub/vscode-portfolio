@@ -18,17 +18,22 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => (
 );
 
 const badges = [
- { label: 'Python', color: '59,130,246', bg: 'rgba(59,130,246,0.1)', icon: '🐍' },
-{ label: 'TypeScript', color: '100,149,237', bg: 'rgba(100,149,237,0.1)', icon: 'TS' },
-{ label: 'FastAPI', color: '75,207,170', bg: 'rgba(75,207,170,0.1)', icon: '⚡' },
-{ label: 'LangChain', color: '168,85,247', bg: 'rgba(168,85,247,0.1)', icon: '🔗' },
-{ label: 'PyTorch', color: '249,115,22', bg: 'rgba(249,115,22,0.1)', icon: '🔥' },
+  { label: 'Python', color: '59,130,246', bg: 'rgba(59,130,246,0.1)', icon: '🐍' },
+  { label: 'TypeScript', color: '100,149,237', bg: 'rgba(100,149,237,0.1)', icon: 'TS' },
+  { label: 'FastAPI', color: '75,207,170', bg: 'rgba(75,207,170,0.1)', icon: '⚡' },
+  { label: 'LangChain', color: '168,85,247', bg: 'rgba(168,85,247,0.1)', icon: '🔗' },
+  { label: 'PyTorch', color: '249,115,22', bg: 'rgba(249,115,22,0.1)', icon: '🔥' },
 ];
 
 const stack: { label: string; items: string[] }[] = [
   { label: 'Languages', items: ['Python', 'TypeScript', 'SQL', 'JavaScript', 'Java'] },
+
+  { label: 'Frontend', items: ['React', 'Next.js', 'Tailwind CSS', 'Framer Motion', 'Redux'] },
+
   { label: 'AI / ML', items: ['PyTorch', 'LangChain', 'HuggingFace', 'scikit-learn', 'TensorFlow'] },
-  { label: 'Backend', items: ['FastAPI', 'Flask', 'Django', 'PostgreSQL', 'Redis'] },
+
+  { label: 'Backend', items: ['FastAPI', 'Flask', 'Django', 'Express.js', 'PostgreSQL', 'MongoDB', 'Redis'] },
+
   { label: 'DevOps', items: ['Docker', 'AWS', 'Linux', 'Git'] },
 ];
 

@@ -51,6 +51,8 @@ const categories: Category[] = [
       { name: 'FastAPI', pct: 90, color: '0,188,212' },
       { name: 'Flask', pct: 82, color: '0,188,212' },
       { name: 'Django', pct: 76, color: '0,188,212' },
+      { name: 'Node.js', pct: 76, color: '0,188,212' },
+      { name: 'Express.js', pct: 76, color: '0,188,212' },
     ],
   },
   {
@@ -59,6 +61,7 @@ const categories: Category[] = [
       { name: 'PostgreSQL', pct: 85, color: '100,181,246' },
       { name: 'Redis', pct: 72, color: '100,181,246' },
       { name: 'Neo4j', pct: 80, color: '100,181,246' },
+      { name: 'MongoDB', pct: 80, color: '100,181,246' },
     ],
   },
   {

@@ -88,7 +88,7 @@ const EditorContent = ({
               <h3 className="text-lg font-semibold text-foreground mb-2">Ayoub Bahrouni — Resume</h3>
               <p className="text-sm text-muted-foreground mb-4">Download or view my latest resume</p>
               <a
-                href="/Ayoub resume.pdf"
+                href="/resume.pdf"
                 download="Ayoub_Bahrouni_Resume.pdf"
                 className="px-4 py-4 bg-primary text-primary-foreground rounded text-sm hover:bg-primary/90 transition-colors inline-flex items-center gap-2"
               >

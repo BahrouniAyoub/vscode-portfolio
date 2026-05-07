@@ -5,6 +5,11 @@ import { useClickSound } from '@/hooks/use-click-sound';
 interface SettingsOverlayProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenCommandPalette: () => void;
+  onToggleTerminal: () => void;
+  onToggleCopilot: () => void;
+  onDownloadResume: () => void;
+  onToggleFullscreen: () => void;
 }
 
 const themes = [
@@ -32,7 +37,15 @@ const shortcuts = [
   { keys: '↑ / ↓', desc: 'Terminal history' },
 ];
 
-const SettingsOverlay = ({ isOpen, onClose }: SettingsOverlayProps) => {
+const SettingsOverlay = ({
+  isOpen,
+  onClose,
+  onOpenCommandPalette,
+  onToggleTerminal,
+  onToggleCopilot,
+  onDownloadResume,
+  onToggleFullscreen,
+}: SettingsOverlayProps) => {
   const [activeTheme, setActiveTheme] = useState(() => {
     return localStorage.getItem('theme') || 'ayoub-dark';
   });
@@ -64,6 +77,14 @@ const SettingsOverlay = ({ isOpen, onClose }: SettingsOverlayProps) => {
   }, [isOpen, handleEsc]);
 
   if (!isOpen) return null;
+
+  const quickActionHandlers: Record<string, () => void> = {
+    'Command Palette': onOpenCommandPalette,
+    'Toggle Terminal': onToggleTerminal,
+    'Copilot Chat': onToggleCopilot,
+    'Download Resume': onDownloadResume,
+    'Toggle Fullscreen': onToggleFullscreen,
+  };
 
   return (
     <div
@@ -154,7 +175,11 @@ const SettingsOverlay = ({ isOpen, onClose }: SettingsOverlayProps) => {
           {quickActions.map((a) => (
             <button
               key={a.label}
-              className="w-full flex items-center px-3 py-2 text-[12px] text-muted-foreground hover:text-foreground hover:bg-white/[0.04] transition-colors cursor-pointer text-left"
+              onClick={() => {
+                quickActionHandlers[a.label]?.();
+                onClose();
+              }}
+              className="w-full flex items-center px-3 py-2 text-[12px] text-muted-foreground hover:text-foreground hover:bg-white/[0.04] transition-colors cursor-pointer text-left focus:outline-none focus:bg-white/[0.06] focus:text-foreground"
             >
               <span className="mr-3">{a.emoji}</span>
               <span className="min-w-0 truncate">{a.label}</span>
