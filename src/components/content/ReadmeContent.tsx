@@ -92,7 +92,7 @@ const ReadmeContent = () => {
         <div className="mb-8">
           <h3 className="text-[16px] font-bold text-foreground mb-3">💜 About</h3>
           <p className="text-muted-foreground leading-[1.8] mb-4" style={{ fontSize: 14 }}>
-            Hi, Ayoub on this side! I am an aspiring computer engineer and am curious to learn new things about life every day! Perfection is something I always aim for. Being big on integrity and authenticity is something I always believe in. I enjoy painting, photography, designing, and editing. Growing up, I have always loved spending quality time making music on the keyboard. Glad to see you, cheers!
+            Hi, Ayoub on this side! I am an aspiring computer engineer and am curious to learn new things about life every day! Perfection is something I always aim for. Being big on integrity and authenticity is something I always believe in. I enjoy playing Chess, Video games, designing, and editing. Growing up, I have always loved spending quality time making music on the keyboard. Glad to see you, cheers!
           </p>
           <ul className="space-y-1.5 text-[13px] text-muted-foreground" style={{ paddingLeft: 24 }}>
             {aboutItems.map((item, i) => (
