@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback, type ReactNode, type FormEvent, type KeyboardEvent } from 'react';
 import { X } from 'lucide-react';
+import { RESUME_DOWNLOAD_NAME, downloadResume as downloadResumeFile } from '@/lib/resume';
 
 interface TerminalPanelProps {
   isOpen: boolean;
@@ -33,8 +34,7 @@ type CommandHandler = (parsed: ParsedCommand) => CommandResult;
 const PROMPT_USER = 'ayoub';
 const PROMPT_HOST = '@portfolio';
 const PROMPT_DIR = '~';
-const RESUME_FILE = 'Ayoub_Bahrouni_Resume.pdf';
-const RESUME_PATH = '/resume.pdf';
+const RESUME_FILE = RESUME_DOWNLOAD_NAME;
 
 const FILES = ['about.ts', 'projects.json', 'experience.ts', 'skills.ts', 'contact.ts', 'resume.pdf'];
 const PROJECTS = ['PagePal', 'CodeQuest', 'CodeSage', 'Resume Builder', 'Customer Churn Prediction'];
@@ -240,10 +240,7 @@ const TerminalPanel = ({ isOpen, onClose, onFileSelect, onDownloadResume }: Term
       onDownloadResume();
       return;
     }
-    const link = document.createElement('a');
-    link.href = RESUME_PATH;
-    link.download = RESUME_FILE;
-    link.click();
+    downloadResumeFile();
   }, [onDownloadResume]);
 
   const openFile = useCallback((file: string) => {

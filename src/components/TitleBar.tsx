@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, X, Minus, Maximize2, Minimize2 } from 'lucide-react';
+import { downloadResume as downloadResumeFile } from '@/lib/resume';
 
 interface TitleBarProps {
   onOpenCommandPalette?: () => void;
@@ -16,6 +17,7 @@ interface TitleBarProps {
   onCloseCurrentTab?: () => void;
   onCloseAllTabs?: () => void;
   onOpenFile?: (id: string) => void;
+  onDownloadResume?: () => void;
 }
 
 const recentFiles = [
@@ -42,6 +44,7 @@ const TitleBar = ({
   onCloseCurrentTab,
   onCloseAllTabs,
   onOpenFile,
+  onDownloadResume,
 }: TitleBarProps) => {
   const [openMenu, setOpenMenu] = useState<MenuId>(null);
   const [zoomLevel, setZoomLevel] = useState(1);
@@ -62,6 +65,10 @@ const TitleBar = ({
 
   const closeMenus = useCallback(() => setOpenMenu(null), []);
   const toggleMenu = (id: MenuId) => setOpenMenu(prev => (prev === id ? null : id));
+  const handleDownloadResume = useCallback(() => {
+    (onDownloadResume ?? downloadResumeFile)();
+    closeMenus();
+  }, [closeMenus, onDownloadResume]);
 
   // ESC closes all
   useEffect(() => {
@@ -233,12 +240,7 @@ const TitleBar = ({
             <Divider />
             <MenuItem
               label="Download Resume"
-              onClick={() => {
-                const a = document.createElement('a');
-                a.href = '/resume.pdf';
-                a.download = 'Ayoub_Bahrouni_Resume.pdf';
-                a.click();
-              }}
+              onClick={handleDownloadResume}
             />
           </div>
         )}
@@ -329,14 +331,9 @@ const TitleBar = ({
             <MenuItem label="contact.ts" indent onClick={() => onOpenFile?.('contact')} />
             <MenuItem label="README.md" indent onClick={() => onOpenFile?.('readme')} />
             <MenuItem
-              label="Ayoub_Bahrouni_Resume.pdf"
+              label="Ayoub resume.pdf"
               indent
-              onClick={() => {
-                const a = document.createElement('a');
-                a.href = '/resume.pdf';
-                a.download = 'Ayoub_Bahrouni_Resume.pdf';
-                a.click();
-              }}
+              onClick={handleDownloadResume}
             />
           </div>
         )}

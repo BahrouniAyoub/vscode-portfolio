@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { ChevronRight, FileCode, FileJson, FileType2, FileText, Sparkles, File, LucideIcon } from 'lucide-react';
 import { FileId } from '@/data/portfolio';
+import { RESUME_DOWNLOAD_NAME } from '@/lib/resume';
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -28,7 +29,7 @@ const allItems: PaletteItem[] = [
   { id: 'file-experience', type: 'file', title: 'experience.ts', icon: FileType2, path: 'src/portfolio', fileId: 'experience' },
   { id: 'file-contact', type: 'file', title: 'contact.ts', icon: FileCode, path: 'src/portfolio', fileId: 'contact' },
   { id: 'file-readme', type: 'file', title: 'README.md', icon: FileText, path: '/', fileId: 'readme' },
-  { id: 'file-resume', type: 'file', title: 'Ayoub_Bahrouni_Resume.pdf', icon: File, path: 'public', fileId: 'resume' },
+  { id: 'file-resume', type: 'file', title: RESUME_DOWNLOAD_NAME, icon: File, path: 'public', fileId: 'resume' },
 ];
 
 const CommandPalette = ({ isOpen, onClose, onFileSelect, onOpenCopilot }: CommandPaletteProps) => {

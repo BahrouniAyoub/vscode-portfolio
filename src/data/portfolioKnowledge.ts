@@ -1,5 +1,7 @@
 import type { FileId } from './portfolio';
 
+import { RESUME_DOWNLOAD_NAME, RESUME_DOWNLOAD_PATH } from '@/lib/resume';
+
 export type KnowledgeTopic = 'about' | 'skills' | 'projects' | 'experience' | 'education' | 'contact' | 'resume';
 
 export interface AssistantSource {
@@ -99,9 +101,9 @@ export const portfolioKnowledge = {
     source: { label: 'contact.ts', fileId: 'contact' } as AssistantSource,
   },
   resume: {
-    label: 'Ayoub_Bahrouni_Resume.pdf',
-    href: '/Ayoub resume.pdf',
-    source: { label: 'Ayoub resume.pdf', fileId: 'resume' } as AssistantSource,
+    label: RESUME_DOWNLOAD_NAME,
+    href: RESUME_DOWNLOAD_PATH,
+    source: { label: RESUME_DOWNLOAD_NAME, fileId: 'resume' } as AssistantSource,
   },
 };
 

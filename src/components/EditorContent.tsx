@@ -16,6 +16,7 @@ import ContactPreview from './content/preview/ContactPreview';
 import ReadmeCodeContent from './content/code/ReadmeCodeContent';
 import ExtensionPage from './content/ExtensionPage';
 import { FileDown, Download, ChevronRight } from 'lucide-react';
+import { RESUME_DOWNLOAD_NAME, RESUME_DOWNLOAD_PATH } from '@/lib/resume';
 
 type ViewMode = 'preview' | 'code';
 
@@ -29,6 +30,7 @@ interface EditorContentProps {
   onToggleAiMode?: () => void;
   aiMode?: boolean;
   focusMode?: boolean;
+  onResumeDownloadStart?: () => void;
 }
 
 const EditorContent = ({
@@ -41,6 +43,7 @@ const EditorContent = ({
   onToggleAiMode,
   aiMode = false,
   focusMode = false,
+  onResumeDownloadStart,
 }: EditorContentProps) => {
   const [viewMode, setViewMode] = useState<ViewMode>('preview');
   const isExtension = extensionRegistry[activeTab as ExtensionId];
@@ -88,11 +91,13 @@ const EditorContent = ({
               <h3 className="text-lg font-semibold text-foreground mb-2">Ayoub Bahrouni — Resume</h3>
               <p className="text-sm text-muted-foreground mb-4">Download or view my latest resume</p>
               <a
-                href="/resume.pdf"
-                download="Ayoub_Bahrouni_Resume.pdf"
-                className="px-4 py-4 bg-primary text-primary-foreground rounded text-sm hover:bg-primary/90 transition-colors inline-flex items-center gap-2"
+                href={RESUME_DOWNLOAD_PATH}
+                download={RESUME_DOWNLOAD_NAME}
+                onClick={onResumeDownloadStart}
+                aria-label={`Download ${RESUME_DOWNLOAD_NAME}`}
+                className="group px-4 py-4 bg-primary text-primary-foreground rounded text-sm hover:bg-primary/90 transition-all hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary/60 focus:ring-offset-2 focus:ring-offset-vsc-editor active:scale-[0.98] inline-flex items-center gap-2"
               >
-                <Download size={14} strokeWidth={1.5} /> Download Resume
+                <Download size={14} strokeWidth={1.5} className="transition-transform group-hover:animate-bounce" /> Download Resume
               </a>
             </div>
           </div>

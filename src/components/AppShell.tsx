@@ -1,5 +1,6 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { TabId, FileId, ExtensionId } from '@/data/portfolio';
+import { downloadResume } from '@/lib/resume';
 import TitleBar from './TitleBar';
 import ActivityBar from './ActivityBar';
 import SidebarExplorer from './SidebarExplorer';
@@ -30,6 +31,8 @@ const AppShell = () => {
   const [isFullscreen, setIsFullscreen] = useState(Boolean(document.fullscreenElement));
   const [focusMode, setFocusMode] = useState(false);
   const [aiMode, setAiMode] = useState(false);
+  const [resumeToastVisible, setResumeToastVisible] = useState(false);
+  const resumeToastTimeoutRef = useRef<number>();
 
   // Open a tab (file or extension)
   const handleTabSelect = useCallback((id: TabId) => {
@@ -86,11 +89,27 @@ const AppShell = () => {
     });
   }, []);
 
+  const showResumeDownloadToast = useCallback(() => {
+    setResumeToastVisible(true);
+    if (resumeToastTimeoutRef.current) {
+      window.clearTimeout(resumeToastTimeoutRef.current);
+    }
+    resumeToastTimeoutRef.current = window.setTimeout(() => {
+      setResumeToastVisible(false);
+    }, 2400);
+  }, []);
+
   const handleDownloadResume = useCallback(() => {
-    const link = document.createElement('a');
-    link.href = '/resume.pdf';
-    link.download = 'Ayoub_Bahrouni_Resume.pdf';
-    link.click();
+    showResumeDownloadToast();
+    downloadResume();
+  }, [showResumeDownloadToast]);
+
+  useEffect(() => {
+    return () => {
+      if (resumeToastTimeoutRef.current) {
+        window.clearTimeout(resumeToastTimeoutRef.current);
+      }
+    };
   }, []);
 
   const toggleFullscreen = useCallback(async () => {
@@ -282,6 +301,7 @@ const AppShell = () => {
           setActiveTab('home');
         }}
         onOpenFile={(id) => handleFileSelect(id as FileId)}
+        onDownloadResume={handleDownloadResume}
       />
 
       <div className="flex flex-1 min-w-0 overflow-hidden">
@@ -367,6 +387,7 @@ const AppShell = () => {
             onToggleAiMode={() => setAiMode((p) => !p)}
             aiMode={aiMode}
             focusMode={focusMode}
+            onResumeDownloadStart={showResumeDownloadToast}
           />
           <TerminalPanel
             isOpen={!focusMode && terminalOpen}
@@ -414,6 +435,16 @@ const AppShell = () => {
               Reopen Portfolio
             </button>
           </div>
+        </div>
+      )}
+
+      {resumeToastVisible && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-14 right-4 z-[120] rounded border border-primary/40 bg-vsc-sidebar px-4 py-2 text-xs text-foreground shadow-2xl animate-in fade-in slide-in-from-bottom-2"
+        >
+          Downloading Resume...
         </div>
       )}
 

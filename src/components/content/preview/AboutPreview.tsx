@@ -26,6 +26,16 @@ const AboutPreview = () => (
     <h2 className="uppercase font-bold text-[18px] mb-3 text-vsc-green tracking-[0.2em]">Education</h2>
     <div className="space-y-3">
       <div className="rounded p-5 bg-white/[0.025] border border-border">
+        <div className="flex flex-wrap justify-between gap-2 sm:gap-4">
+          <strong className="text-foreground">ESPRIT</strong>
+          <span className="text-muted-foreground">2025 - Present</span>
+        </div>
+
+        <p className="text-vscode-blue text-xs mt-1">
+          AI Engineering Student · Artificial Intelligence & Data Science
+        </p>
+      </div>
+      <div className="rounded p-5 bg-white/[0.025] border border-border">
         <div className="flex flex-wrap justify-between gap-2 sm:gap-4"><strong className="text-foreground">Faculty of Sciences of Tunis</strong><span className="text-muted-foreground">2022 - 2025</span></div>
         <p className="text-vscode-blue text-xs mt-1">Computer Engineering · IoT & Embedded Systems</p>
       </div>

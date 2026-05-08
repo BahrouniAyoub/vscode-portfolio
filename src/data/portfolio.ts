@@ -1,3 +1,5 @@
+import { RESUME_DOWNLOAD_NAME } from '@/lib/resume';
+
 export type FileId = 'home' | 'about' | 'projects' | 'skills' | 'experience' | 'contact' | 'readme' | 'resume';
 
 export type ExtensionId = 'theme' | 'font' | 'language' | 'animation' | 'copilot' | 'stats' | 'game' | 'notes' | 'search' | 'focus' | 'ai';
@@ -30,7 +32,7 @@ export const sidebarFiles: SidebarFile[] = [
   { id: 'experience', name: 'experience.ts', path: ['src', 'portfolio', 'experience.ts'], lucideIcon: 'file-type', iconColor: 'text-vsc-cyan' },
   { id: 'contact', name: 'contact.ts', path: ['src', 'portfolio', 'contact.ts'], lucideIcon: 'file-type', iconColor: 'text-vsc-cyan' },
   { id: 'readme', name: 'README.md', path: ['README.md'], lucideIcon: 'file-text', iconColor: 'text-muted-foreground' },
-  { id: 'resume', name: 'Ayoub_Bahrouni_Resume...', path: ['public', 'Ayoub resume.pdf'], lucideIcon: 'file-down', iconColor: 'text-vsc-red' },
+  { id: 'resume', name: RESUME_DOWNLOAD_NAME, path: ['public', RESUME_DOWNLOAD_NAME], lucideIcon: 'file-down', iconColor: 'text-vsc-red' },
 ];
 
 export const extensionRegistry: Record<ExtensionId, { name: string; description: string; action: string }> = {
